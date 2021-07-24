@@ -6,6 +6,7 @@ from types import MethodDescriptorType
 #Use to enforce constraints on the database
 from sqlalchemy import event
 from sqlalchemy.engine import Engine
+import linked_list
 
 #Create all SQLAlchemy functions inside the application
 from flask_sqlalchemy import SQLAlchemy
@@ -52,15 +53,53 @@ class BlogPost(db.Model):
 
 @app.route("/user", methods=["POST"])
 def create_user():
-    pass
+    data = request.get_json()
+    new_user = User(
+        name = data["name"],
+        email = data["email"],
+        address = data["address"],
+        phone = data["phone"]
+    )
+    db.session.add(new_user)
+    db.session.commit()
+    return jsonify({"Message": "User created"})
 
 @app.route("/user/descending_id", methods=["GET"])
 def get_all_users_descending():
-    pass
+    users = User.query.all()
+    all_user_ll = linked_list.LinkedList()
+
+    for user in users:
+        all_user_ll.insert_beginning(
+            {
+                "id": user.id,
+                "name": user.name,
+                "email": user.email,
+                "address": user.address,
+                "phone": user.phone,
+            }
+        )
+
+    return jsonify(all_user_ll.to_list()), 200
+
 
 @app.route("/user/ascending_id", methods=["GET"])
 def get_all_users_ascending():
-    pass
+    users = User.query.all()
+    all_user_ll = linked_list.LinkedList()
+
+    for user in users:
+        all_user_ll.insert_at_end(
+            {
+                "id": user.id,
+                "name": user.name,
+                "email": user.email,
+                "address": user.address,
+                "phone": user.phone,
+            }
+        )
+
+    return jsonify(all_user_ll.to_list()), 200
 
 @app.route("/user/<user_id>", methods=["GET"])
 def get_one_user(user_id):
