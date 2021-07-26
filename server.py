@@ -2,27 +2,25 @@ from logging import debug
 from sqlite3 import Connection as SQLite3Connection
 from datetime import datetime
 from sqlite3.dbapi2 import Cursor
-from types import MethodDescriptorType
-#Use to enforce constraints on the database
+
+# Use to enforce constraints on the database
 from sqlalchemy import event
 from sqlalchemy.engine import Engine
-import linked_list
-import hash_table, custom_q, stack
-import random
-import binary_search_tree
 
-#Create all SQLAlchemy functions inside the application
+# Project classes
+import hash_table, custom_q, stack, linked_list, random, binary_search_tree
+
+# Create all SQLAlchemy functions inside the application
 from flask_sqlalchemy import SQLAlchemy
-
 from flask import Flask, json, request, jsonify
 
-# app
+# App
 app = Flask(__name__)
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///sqlitedb.file"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = 0
 
-# configure sqlite3 to enforce foreign key contraints
+# Configure sqlite3 to enforce foreign key contraints
 @event.listens_for(Engine, "connect")
 def _set_sqlite_pragma(dbapi_connection, connection_record):
     if isinstance(dbapi_connection, SQLite3Connection):

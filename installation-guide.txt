@@ -1,16 +1,16 @@
 # 1. Create the virtual enviroment and install the required dependencies
-'''
+```
     python3 -m venv venv
     source ./venv/bin/activate
     pip install -r requirements.txt
-'''
+```
 # 2. Install sqlite3
-'''
+```
     sudo apt-get install sqlite3
-'''
+```
 # Genrate the database 
 
-'''
+```
 (venv) didier@DESKTOP-1H60SFP:/mnt/c/Users/didie/Documents/Platzi/Flask API$ python
 Python 3.8.10 (default, Jun  2 2021, 10:49:15) 
 [GCC 9.4.0] on linux
@@ -18,4 +18,4 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> from server import db
 >>> db.create_all()
 >>> exit()
-'''
+```
